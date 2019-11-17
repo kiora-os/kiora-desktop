@@ -5,7 +5,8 @@
         <span class="app-button" v-for="(app, key) in appPage" @click="openApp(key)" :data-name="key">
           <span class="app-button__icon">
             <img v-if="images[key] && images[key].ext != 'svg'" :src="images[key].src" alt="" class="app-button__logo" @load="drawGradient">
-            <span v-else-if="images[key]" v-html="images[key].src" class="app-button__logo app-button__logo--svg"></span>
+            <span v-else-if="images[key]" class="app-button__logo app-button__logo--svg"><svg-icon :content="images[key].src"></svg-icon></span>
+
           </span>
           <span class="app-button__title">
             {{app.name}}
@@ -20,6 +21,7 @@
 import averageColorFromImage from './../utils/averageColor'
 import $ from 'jquery'
 import 'slick-carousel'
+import svgIcon from './svg-icon'
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -31,6 +33,9 @@ export default {
 
     }
   },
+  components: {
+    'svg-icon': svgIcon
+  },
   mounted() {
     // FIXME
     setTimeout(() => {
@@ -39,6 +44,7 @@ export default {
         dots: true,
         arrows: false
       });
+
     }, 1000);
 
     $('.app-buttons').on('mousewheel', (e) => {

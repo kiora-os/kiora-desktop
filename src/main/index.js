@@ -87,7 +87,7 @@ function createWindow () {
           }
 
           let iconLocations = findIconPaths()
-          console.log(iconLocations)
+          // console.log(iconLocations)
 
           const iconExtensions = [
             'svg',
