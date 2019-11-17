@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 var shell = require('shelljs')
 var fs = require('fs')
+import findIconPaths from './find_icon_paths'
 
 /**
  * Set `__static` path to static files in production
@@ -85,12 +86,9 @@ function createWindow () {
             }
           }
 
-          const iconLocations = [
-            '/usr/share/pixmaps/',
-            '/usr/share/'+filename.replace('.desktop','')+'/',
-            '/usr/share/icons/breeze/apps/48/',
-            '/usr/share/icons/hicolor/48x48/apps/'
-          ];
+          let iconLocations = findIconPaths()
+          console.log(iconLocations)
+
           const iconExtensions = [
             'svg',
             'png'
@@ -102,7 +100,7 @@ function createWindow () {
 
               for (let iconLocation of iconLocations) {
                 for (let ext of iconExtensions) {
-                  fs.readFile(iconLocation+appDescription.icon+'.'+ext, (err,data) => {
+                  fs.readFile(iconLocation+'/'+appDescription.icon+'.'+ext, (err,data) => {
                     if (err) return;
 
                     mainWindow.webContents.send('icon', {
